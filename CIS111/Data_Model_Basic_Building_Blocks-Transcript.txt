@@ -1,0 +1,166 @@
+
+
+
+
+
+               >> In this video we'll take a look at the basic data model
+
+               building blocks.  The most basic data model building block
+
+               is the entity which is an object of interest to the end
+
+               user.  Each entity describes a particular real world
+
+               object.  For example, a data model for a school would
+
+               surely include entities such as teachers and students.
+
+               Similarly, a data model for an art gallery would include
+
+               painters and the paintings created by those painters.  An
+
+               entity is described by its attributes.  For example, a
+
+               teacher might be described through the attributes such as
+
+               a title, a first name, a last name, and a degree.  A
+
+               painter might be described through a first name, a last
+
+               name, and a primary painting medium such as acrylic or
+
+               oil.  Another important data model building block is the
+
+               relationship which is an association among entities.
+
+               Relationships are classified by type.  One to many, many
+
+               to many, and one to one.  For example, note the one to
+
+               many relationship between painter and paintings in which a
+
+               painter paints many paintings but each painting is painted
+
+               by only one painter.  Incidentally, the one-to-many
+
+               relationship is the most common and most ideal of the
+
+               relationship types.  A many-to-many relationship exist
+
+               between employee and job skill because on employee may
+
+               have more than one skill and a job skill may be learned by
+
+
+
+
+
+
+
+
+               many employees.  For example, an employee may be
+
+               proficient as a programmer and a database designer and
+
+               there may be more than one programmer in the company's
+
+               workforce.  A one-to-one relationship is the most
+
+               restrictive of these relationship types.  Note that in
+
+               this case a store is managed by only one employee and an
+
+               employee may manage only one store.
+
+               ^M00:02:07
+
+               [ Pause ]
+
+               ^M00:02:18
+
+               Furthermore, relationships have a name.  They exist
+
+               between participant entities and they go in both
+
+               directions.  In the relationship "a painter paints many
+
+               paintings," there are two participating entities, painter
+
+               and painting.  Note that the relationship is
+
+               bi-directional.  In this case "paints" is the name of the
+
+               relationship from painter to painting and "is painted by"
+
+               is the relationship from painting to painter.  Another
+
+               basic data model component is the constraint which is a
+
+               restriction placed on the data.  For example, note the
+
+               following restrictions.  A salary must be greater than
+
+               zero and less than $350,000.  A GPA must be greater than
+
+               or equal to zero and less than or equal to four using two
+
+               decimal places.  A pilot cannot fly more than 10 hours
+
+
+
+
+
+
+
+
+               during any 24 hour period.  As you can see a constraint
+
+               may be placed on an attribute, an entity, or on
+
+               relationships.  This concludes this presentation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

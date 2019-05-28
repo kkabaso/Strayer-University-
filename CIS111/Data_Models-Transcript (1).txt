@@ -1,0 +1,113 @@
+
+
+
+
+
+               >> In this video we'll take a look at data models.  A good
+
+               database design is the foundation for good applications.
+
+               A good database model is the blueprint for the development
+
+               of a solid database application.  Having a database design
+
+               facilitates the communications among the many participants
+
+               on the development of good database applications.  You
+
+               cannot create a good design no matter astute your judgment
+
+               without reference to a basic design framework and basic
+
+               design building blocks.  Keep in mind that the same basic
+
+               design components can create very different outcomes
+
+               depending on how they are used.  Much depends on the
+
+               judgments employed in the selection and use of those
+
+               components.  That is why database design is said to be
+
+               both an art and a science and that's why we'll examine
+
+               data models as the foundation for database design.  Models
+
+               in general are simplified abstractions of real world
+
+               events or conditions.  People create models to better
+
+               understand real world objects or ideas.  A data model is
+
+               usually based on a graphic presentation.  Such a graphic
+
+               representation portrays the facts, the data if you will,
+
+               that may be assembled to describe real events, objects or
+
+               ideas.  Let's properly define a data model.  A data model
+
+               is the relatively simple representation, usually graphic,
+
+               of facts that are used to describe real world events,
+
+
+
+
+
+
+
+
+
+               objects, or ideas.  A data model shows what data are
+
+               represented and how the data elements relate to each
+
+               other.  The data model represents static characteristics
+
+               such as relationships, constraints, and transformations.
+
+               A database model is a set of logical constructs based on a
+
+               data model that represents the data structure and the
+
+               relationships found within a specific database.  For
+
+               example, this Microsoft access illustration shows the data
+
+               components and the relationships between them.  We'll
+
+               examine these components and relationships later.  This
+
+               concludes this presentation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

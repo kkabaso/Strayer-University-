@@ -1,0 +1,14 @@
+
+ body {
+       background-color: bisque;
+       background-image: url(1.jpg);
+       background-repeat: repeat-y;
+       }
+   p { 
+      float: left; 
+      font-family: Arial;
+      margin-top: 300px;
+      margin-right: 600px;
+      margin-bottom: 10px;
+      margin-left: 300px;
+     } 

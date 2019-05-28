@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://www.awesomescreenshot.com/promotion_ex -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title></title>
+    <link rel="stylesheet" href="./ex_promotion.css">
+</head>
+<body>
+<div id="container">
+    
+    <div class="prom-item" id="upgrade-promotion">
+        <p>Love it? Empower us to keep improving it.</p>
+    <a href="https://www.awesomescreenshot.com/user/login?type=record_screen" target="_blank">Upgrade for unlimited screencasts</a>
+    </div>
+    
+    <div class="five-star prom-item">
+        <p>Like it? Help us spread the word! </p>
+        <a href="https://chrome.google.com/webstore/detail/awesome-screenshot-screen/nlipoenfbbikpbjkfpfillcgkoblgpmj/reviews" target="_blank">Give us a 5-star rating</a>
+    </div>
+</div>
+<script>
+    window.parent.postMessage({
+        action: 'adjustPromotionSize',
+        height: document.getElementById('container').clientHeight
+    }, '*');
+    console.log(document.cookie);
+</script>
+
+</body></html>

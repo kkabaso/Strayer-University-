@@ -1,0 +1,24 @@
+Pseudocode:
+ start 
+     Variable declarations
+            num minBid = 100
+            num idNumber
+            num Days
+            num minRequiredbid
+            string itemDescription
+      housekeeping()
+      detailLoop()
+      finish()
+ stop 
+      housekeeping()
+             output “Auction Data are” input idNumber, itemDescription, Days, minRequiredbid
+       return 
+                              detailLoop()
+                                     if minRequiredbid > 100 then
+                                              output idNumber, itemDescription, Days, minRequiredbid
+                                      endif
+                              return
+ finish()
+        output “End of program”
+ return
+

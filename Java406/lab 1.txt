@@ -1,0 +1,1 @@
+mport java.util.Scanner; public class MilesToFeet { public static void main(String[] args) { final float FEET_PER_MILE = 5280; double milesToDestination; double feetToDestination; Scanner input = new Scanner(System.in); System.out.println("Please enter the number of miles to you

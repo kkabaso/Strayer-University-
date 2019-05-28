@@ -1,0 +1,25 @@
+aside {
+     color: rgb(145, 98, 78);
+     position: absolute;
+     top: 100px;
+     left: 1px;
+     width:30%;
+     height: 450px;
+     overflow: auto;
+     
+     }
+aside h1 {
+   
+    text-align: center;
+    width: 33%;
+    font-size: 105%;
+font-weight: bold;
+margin-left: 25px;
+    text-align: center;
+      }
+aside p { 
+      font-size: 75%;
+      margin:15px;
+        
+              
+}

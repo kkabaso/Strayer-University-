@@ -1,0 +1,32 @@
+
+Class Roster Array Version [Java] Assignment
+
+Class Roster: This class will implement the functionality of all roster for school. It will , in essence, manage an Array of Student objects. Each roster will store a default of 10 Students
+
+    “global” Instance Variables
+        private Student myStudents   : an array storing Student Objects
+        private String className  (a name to represent a given roster like “Ap CS”)
+        public int period //during which period of the day does this roster meet
+    a default constructor should initialize the Array to store 20 strings
+    a single parameter constructor that takes an Array <String>
+    Both constructors should initialize the instance variables
+    Methods
+        Accessors
+            private int indexOf(Student st) //@returns index of Student St or -1
+            public boolean containsStudent(Student studentName )/ /@returns true if studentName is in roster .
+            public boolean equals(ClassRoster other) //@ returns whether or not rosters are equal. Rosters are equal if identical students are in identical order in the lists
+        Mutators:
+
+boolean addStudent( Student st ) ;//adds the student to the Roster
+1
+	
+boolean addStudent( Student st ) ;//adds the student to the Roster
+
+public void addStudent(String studentName, int age) ;// adds student name and age to end of roster
+
+. Hint: Make user of the containsStudent() method
+public boolean removeStudent(int ssnId ) // removes student from roster based on id. Make sure that you maintain the integrity of the parallel ArrayLists.
+
+public boolean removeStudent(String name) //removes student based on name. Make sure that you maintain the integrity of the parallel ArrayLists.
+
+public  boolean removeStudent( Student st) //removes student st. Make sure that you maintain the integrity of the parallel ArrayLists.

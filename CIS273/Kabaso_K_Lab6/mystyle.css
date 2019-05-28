@@ -1,0 +1,39 @@
+body{
+    background-color: #3B9E9E;
+    font-family: Georgia, serif;
+    font-size: smaller
+    }
+
+p{
+   margin-left: 2px;
+  }
+table{ 
+      border: 1px solid white;
+      border-collapse: collapse;
+     }
+table tr, th, td{ 
+        border: 1px solid white;
+        }
+table th{ 
+        background-color: Brown;
+        color: white;
+        }
+caption{ 
+        caption-side: top;
+        text-align: center;
+        margin-bottom: 12px;
+        color: yellow;
+        font-size: 22px;
+}
+
+<audio controls="controls" autoplay="autoplay" loop="loop">
+    <audio src="hello.mp3" />
+    <audio src="Kumama.mp4" />
+    
+    <embed src="hello.mp3" autoplay="no" controller="yes" />
+  <p>Your browser doesn't support HTML5 audio. Here is
+     a <a href="hello.mp3">link to the audio</a> instead.</p>
+
+
+
+</audio><br>

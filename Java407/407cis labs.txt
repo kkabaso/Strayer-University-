@@ -1,0 +1,368 @@
+Unformatted text preview: /** * *
+ @author Week 1 Lab 2: Exercise 8 on page 541 * */ 
+public class CollegeCourse { 
+ protected static String department;
+ protected static int courseNumber;
+ protected static int credits;
+ protected static double courseFee;
+ /** * @return the courseFee */
+ public static double getCourseFee() 
+{ courseFee = credits * 120; return courseFee; 
+} public static void display()
+{ System.out.println("Course Department: " + CollegeCourse.department);
+ System.out.println("Course Number: " + CollegeCourse.courseNumber);
+ System.out.println("Credits per course: " + CollegeCourse.credits);
+ System.out.println("Course Fee:$" + CollegeCourse.getCourseFee()); 
+} /** * @return the department */ 
+public static String getDepartment() 
+{ return department;
+ } /** * @param department the department to set */ 
+public void setDepartment(String department) 
+{ CollegeCourse.department = department; }
+ /** * @return the courseNumber */ 
+public int getCourseNumber() 
+{ return courseNumber; }
+ /** * @param courseNumber the courseNumber to set */ 
+public void setCourseNumber(int courseNumber) 
+{ CollegeCourse.courseNumber = courseNumber;
+ }
+ /** * @return the credits */ 
+public int getCredits() { return credits * 120; 
+} /** * @param credits the credits to set */ 
+public void setCredits(int credits) 
+{ CollegeCourse.credits = credits;
+ }
+ }
+ /** * * @author * */ 
+public class LabCourse extends CollegeCourse { 
+//Display with lab course fee included public static void display(){ 
+System.out.println("Course Department: " + CollegeCourse.department);
+ System.out.println("Course Number: " + CollegeCourse.courseNumber); 
+System.out.println("Credits per course: " + CollegeCourse.credits); 
+System.out.println("Course Fee + Lab Course Fee:$" + LabCourse.getCourseFee());
+ }
+ //Add lab course fee public static double getCourseFee() 
+{ courseFee = (credits * 120) + 50; 
+  return courseFee; 
+}
+ }
+ import java.util.Scanner;
+ /** * */ /** * @author * */
+ public class UseCourse extends CollegeCourse 
+{
+ /** * @param args */
+ public static void main(String args) { 
+// Create Scanner to prompt user input System.out.println("Enter the Course name: "); 
+Scanner input = new Scanner(System.in); 
+department = input.next(); 
+System.out.println("Enter the Course number: "); 
+courseNumber = input.nextInt(); 
+System.out.println("Enter the amount of credits for course: "); 
+credits = input.nextInt();
+ //Compare the department input to determine whether to add the lab course fee 
+if(department.matches("BIO") || department.matches("CHM") || department.matches("CIS") || department.matches("PHY")){
+ // If a match is made add lab course fee LabCourse.display();
+ }else{
+ //If no match display without lab course fee display();
+ }
+ }
+ }
+
+######
+Unformatted text preview: /** * */
+ /** * @author Week 2 Lab 3: Exercise 9 on page 597 * */
+ public abstract class Insurance {
+ // Declare fields to be used
+ private String insuranceType;
+ protected double monthlyPrice;
+ /* * Create a constructor to determine the type of insurance, set the cost and * display the output */
+ public Insurance(String insuranceType)
+ { setInsuranceType(insuranceType); 
+setCost();
+ display();
+ }
+ // Set the insurance type from the constructor above 
+public void setInsuranceType(String Type) 
+{
+ insuranceType = Type;
+} 
+// get the monthly cost 
+public double getCost()
+ {
+ return monthlyPrice;
+ } 
+/* abstract methods to be used in Life and Health class */
+ public abstract void setCost();
+ public abstract void display();
+ /** * @return the insuranceType */
+ public String getInsuranceType() {
+ return insuranceType; 
+} /** * @return the monthlyPrice */
+ public double getMonthlyPrice() {
+ return monthlyPrice;
+ }
+ }
+ /** * */ /** * @author * */ 
+public class Health extends Insurance 
+{ /** * @param insuranceType * for parent constructor and sets the cost for Health insurance */ 
+public Health() { super("Health"); 
+setCost();
+ }
+ /* * (non-Javadoc) * * @see Insurance#setCost() */ 
+@Override public void setCost() {
+ // sets the monthly fee for Health insurance monthlyPrice = 196;
+ } /* * (non-Javadoc) * * @see Insurance#display() */ 
+@Override public void display() {
+ // Displays the output for Health Insurance 
+System.out.printf("The type of insurance you typed in is Health Insurance " + "and your monthly fee is $%3.2f", getCost());
+ }
+ } /** * */ /** * @author * */ 
+public class Life extends Insurance {
+ /** * @param insuranceType for parent constructor and sets the appropriate cost */ 
+public Life() { 
+super("Life");
+ setCost();
+ } /* (non-Javadoc) * @see Insurance#setCost() */
+ @Override public void setCost() {
+ // Sets the cost for Life Insurance monthly fee monthlyPrice = 36; 
+} /* (non-Javadoc) * @see Insurance#display() */
+ @Override public void display() {
+ // Displays the output for Life insurance 
+System.out.printf("The type of insurance you typed in is Life insurance " + "and your monthly fee is $%2.2f", getCost());
+ }
+ } import java.util.Scanner;
+ /** * */ /** * @author * */
+ public class UseInsurance {
+ /** * @param args */ 
+public static void main(String args) {
+ // Create scanner to prompt the user to enter type of insurance 
+Scanner input = new Scanner(System.in);
+ System.out.println("Enter the type of insurance - Health or Life:"); 
+String typeOfInsurance = input.nextLine(); 
+// Compare the string to determine and display the appropriate output if (typeOfInsurance.equals("Health")) { 
+Health newH = new Health();
+ } else if (typeOfInsurance.equals("Life")) {
+ Life newL = new Life();
+ } else { System.out.println("Invalid Input! Enter either Health or Life");
+ }
+ }
+ } ...
+ASS 2###############
+import java.util.*; import javax.swing.*; import java.awt.*; import java.io.*; import java.awt.event.*; /** * CIS 407 Week 10 Assignment 2 Insurance App Part 2*/ abstract class InsuranceAgentApp { /*define variables*/ protected String type; protected String name; private static float totalPremium=0; public InsuranceAgentApp() { }/* Constructor that takes the type value */ public InsuranceAgentApp(String type) { this.type=type; } /*setters and getters*/ public String getType() { return type; } public String getInsuredObjectName() { return name; } public static float getTotalPremium() {
+Background image of page 1
+Info iconThis preview has intentionally blurred sections. Sign up to view the full version.
+
+View Full Document Right Arrow Icon
+return totalPremium; } /* takes the value of premium from setRiskAmount and adds it to totalPremium */ public static void setTotalPremium(float premium) { totalPremium=totalPremium+premium; } //Abstract methods to be used in the other three classes */ abstract public void setInsuredObjectName(String name); abstract public void setRiskAmount(float amount); abstract public void inputDetailsGUI(); abstract public void inputDetails(); abstract public void display(); abstract public String toString(); } import java.util.Scanner; import javax.swing.JOptionPane; /* * CIS 407 Week 10 Assignment 2*/ class AutomobileInsurance extends InsuranceAgentApp { /*define variables*/ private float riskAmount; private static float RATE=0.75f; private float premium;
+Background image of page 2
+/* * * * Call the super constructor and send type */ public AutomobileInsurance(String type) { super(type); } /*setters and getters*/ public static float getRate() { return RATE; } /** * return the premium */ public float getPremimum() { return premium; } public float getRiskAmount() { return riskAmount; } //@Override public void setInsuredObjectName(String name){ super.name=name; } /* sends the value of premium from setRiskAmount to setTotalPremium */ public void setRiskAmount(float riskAmount){ this.riskAmount=riskAmount;
+Background image of page 3
+Info iconThis preview has intentionally blurred sections. Sign up to view the full version.
+
+View Full Document Right Arrow Icon
+premium=(RATE*riskAmount)/100f; InsuranceAgentApp.setTotalPremium(premium); } public void display(){ System.out.print("Insurance type ="+super.getType()+"\n"); System.out.print("Insurance Entity Name ="+super.getInsuredObjectName()+"\n"); System.out.print("Insurance Risk Amount ="+getRiskAmount()+"\n"); System.out.print("Insurance RATE ="+getRate()+"\n"); System.out.print("Insurance Premium ="+getPremimum()+"\n"); } public void inputDetails(){ Scanner input = new Scanner(System.in); 
+System.out.print("For insurance type :"+super.getType()+", enter Insured entity name :");
+###### asg1
+/**CIS 407 Week 6 Assignment 1 * */
+ public abstract class InsuranceAgentApp { 
+/* Define variables */
+ protected String type;
+ protected String Name;
+ protected static float totalPremium = 0;
+ /* Constructor that takes the type value */ 
+public InsuranceAgentApp(String type) { 
+this.type = type; 
+} 
+public InsuranceAgentApp() { } 
+/* * * return the type */ 
+public String getType()
+ { return type; }
+Background image of page 1
+Info iconThis preview has intentionally blurred sections. Sign up to view the full version.
+
+View Full Document Right Arrow Icon
+/* * return the totalPremium */
+ public static float getTotalPremium() 
+{ return totalPremium;
+ } /* takes the value of premium from setRiskAmount and adds it to totalPremium */
+ public static void setTotalPremium(float premium)
+ { totalPremium = totalPremium + premium; 
+}
+ /* sets the entity name */
+ public String getInsuredObjectName()
+ { return Name; } 
+// Abstract methods to be used in the other three classes */ 
+public abstract void setInsuredObjectName(String name); 
+abstract public void setRiskAmount(float amount); 
+abstract public void Userinput(); 
+public abstract void display(); 
+}
+Background image of page 2
+import java.util.Scanner;
+ /**Week 6 Assignment 1 * */
+ public class AutomobileInsurance extends InsuranceAgentApp {
+ /* Define variables */
+ private static float riskAmount; 
+private static float RATE = 0.75f;
+######################page 7 to 11
+String msg="For insurance type :"+super.getType()+", enter Insured entity name :"; 
+setInsuredObjectName(JOptionPane.showInputDialog(msg)); 
+msg="For insurance type :"+super.getType()+", enter entity value :";
+ setRiskAmount(Float.valueOf(JOptionPane.showInputDialog(msg)));
+Background image of page 7
+Info iconThis preview has intentionally blurred sections. Sign up to view the full version.
+
+View Full Document Right Arrow Icon
+} public String toString(){ String msg="Insurance type ="+super.getType()+"\n"; 
+msg=msg+"Insurance Entity Name ="+super.getInsuredObjectName()+"\n";
+ msg=msg+"Insurance Risk Amount ="+getRiskAmount()+"\n"; 
+msg=msg+"Insurance RATE ="+getRate()+"\n";
+ msg=msg+"Insurance Premium ="+getPremimum()+"\n"; 
+return msg; 
+}
+ }
+######################################################### 
+import java.util.*;
+ import javax.swing.*; import java.awt.*; import java.io.*; import java.awt.event.*; /* * CIS 407 Week 10 Assignment 2*/ class TravelInsurance extends InsuranceAgentApp { /*define variables*/ private float riskAmount; private static float RATE=0.73f; private float premium; /* * * * Call the super constructor and send type
+Background image of page 8
+*/ public TravelInsurance(String type) { super(type); 
+} /*setters and getters*/ /** * return the rate */ public static float getRate() { return RATE; } 
+/** * return the premium */ public float getPremimum() { return premium; } /** * return the riskAmount */
+ public float getRiskAmount() { return riskAmount; } 
+//@Override public void setInsuredObjectName(String name){ super.name=name; }
+Background image of page 9
+Info iconThis preview has intentionally blurred sections. Sign up to view the full version.
+
+View Full Document Right Arrow Icon
+/* sends the value of premium from setRiskAmount to setTotalPremium */ public void setRiskAmount(float riskAmount){ this.riskAmount=riskAmount; premium=(RATE*riskAmount)/100f; InsuranceAgentApp.setTotalPremium(premium); } /* * Displays the output * * */ public void display(){ System.out.print("Insurance type ="+super.getType()+"\n"); System.out.print("Insurance Entity Name ="+super.getInsuredObjectName()+"\n"); System.out.print("Insurance Risk Amount ="+getRiskAmount()+"\n"); System.out.print("Insurance RATE ="+getRate()+"\n"); System.out.print("Insurance Premium ="+getPremimum()+"\n"); } public void inputDetails(){ Scanner input = new Scanner(System.in); System.out.print("For insurance type :"+super.getType()+", enter Insured entity name :"); setInsuredObjectName(input.nextLine()); System.out.print("For insurance type :"+super.getType()+", enter entity value :"); setRiskAmount(input.nextFloat()); } public void inputDetailsGUI(){ String msg="For insurance type :"+super.getType()+", enter Insured entity name :";
+Background image of page 10
+setInsuredObjectName(JOptionPane.showInputDialog(msg)); msg="For insurance type :"+super.getType()+", enter entity value :"; setRiskAmount(Float.valueOf(JOptionPane.showInputDialog(msg))); } public String toString(){ String msg="Insurance type ="+super.getType()+"\n"; msg=msg+"Insurance Entity Name ="+super.getInsuredObjectName()+"\n"; msg=msg+"Insurance Risk Amount ="+getRiskAmount()+"\n"; msg=msg+"Insurance RATE ="+getRate()+"\n"; msg=msg+"Insurance Premium ="+getPremimum()+"\n"; return msg; } } import java.util.*; import javax.swing.*; import java.awt.*;
+###############lab1
+Unformatted text preview: /** * */ /** * @author Week 1 Lab 1: Exercise 1 on page 539 * 4/6/2016 * */ public class Horse { protected String name,color; protected int birthYear; /** * @return the name */ public String getName() { return name; } /** * @param name the name to set */ public void setName(String name) { this.name = name; } /** * @return the color */ public String getColor() { return color; } /** * @param color the color to set */ public void setColor(String color) { this.color = color; } /** * @return the birthYear */ public int getBirthYear() { return birthYear; } /** * @param birthYear the birthYear to set */ public void setBirthYear(int birthYear) { this.birthYear = birthYear; } } public class RaceHorse extends Horse { public int NumOfRaces; /** * @return the numOfRaces */ public int getNumOfRaces() { return NumOfRaces; } /** * @param numOfRaces the numOfRaces to set */ public void setNumOfRaces(int numOfRaces) { NumOfRaces = numOfRaces; } } /** * */ /** * @author * * */ public class DemoHorses extends Horse { /** * @param args */ public static void main(String args) { // TODO Auto-generated method stub Horse FirstHorse = new Horse(); RaceHorse speedy = new RaceHorse(); FirstHorse.setName("Buttercup"); FirstHorse.setColor("Brown"); FirstHorse.setBirthYear(2010); speedy.setNumOfRaces(20); System.out.println("Name of horse: " + FirstHorse.getName()); System.out.println("Color of horse: " + FirstHorse.getColor()); System.out.println("Birth Year of horse: " + FirstHorse.getBirthYear()); System.out.println("Number of races the horse has ran: " + speedy.getNumOfRaces()); } } ... 
+#############lab4
+ Week 2 Lab 4: Exercise 13 on page 598 * */
+ public class FullTime extends Student {
+ /* * Calls the parent constructor and passes on the values for a fullTime * student * */
+ public FullTime() {
+ super("Sarah", true);
+ } @Override public void tuition() {
+ // Displays the output for a fullTime student 
+System.out.println( "" + getName() + " is a Full-time Student and her tuition is a " + "flat rate of $2,000 per semester.");
+ }
+ } /** * */ /** * @author * */ 
+public class PartTime extends Student {
+ /* * Calls the parent constructor and sends the values to it * */ 
+public PartTime() { 
+super("Coben", false); 
+} @Override public void tuition() {
+ // Displays the tuition for a partTime student System.out.println("" + getName() + " is a Part-time Student and his tuition is $200.00 per credit hour.");
+ }
+ } /** * */ /** * @author Lab4 * */
+ public abstract class Student {
+ // Declare fields for the student name and status private String name;
+ private boolean fullTimeStatus; 
+// Create an abstract method for the tuition 
+public abstract void tuition();
+ // Parent constructor to be used by the fullTime and partTime class 
+public Student(String name, boolean fullTimeStatus) {
+ setName(name); 
+setFullTimeStatus(fullTimeStatus);
+ tuition();
+ } /** * @return the name */ 
+public String getName()
+ { return name;
+ } /** * @param name * the name to set */ 
+public void setName(String nm) {
+ name = nm;
+ } /** * @return the fullTimeStatus */ 
+public boolean isFullTimeStatus() { 
+return fullTimeStatus; 
+} /** * @param fullTimeStatus * the fullTimeStatus to set */ 
+public void setFullTimeStatus(boolean Status) 
+{ fullTimeStatus = Status; 
+} 
+} /** * */ /** * @author * */
+ public class UseStudent {
+ /** * @param args */ 
+public static void main(String args) { 
+// Creates the objects and displays the appropriate data FullTime shorty = new FullTime();
+ PartTime shelly = new PartTime();
+ }
+ } ... 
+######################
+import java.util.*; 
+import javax.swing.*;
+ import java.awt.*;
+ import java.io.*;
+ import java.awt.event.*;
+ /** * CIS 407 Week 10 Assignment 2 Insurance App Part 2*/ abstract class InsuranceAgentApp { /*define variables*/
+ protected String type; protected String name; 
+private static float totalPremium=0; 
+public InsuranceAgentApp() { }
+/* Constructor that takes the type value */ 
+public InsuranceAgentApp(String type) { this.type=type;
+ } /*setters and getters*/ 
+public String getType() { return type; } public String getInsuredObjectName() { return name; } public static float getTotalPremium() {
+Background image of page 1
+Info iconThis preview has intentionally blurred sections. Sign up to view the full version.
+
+View Full Document Right Arrow Icon
+return totalPremium; } /* takes the value of premium from setRiskAmount and adds it to totalPremium */ public static void setTotalPremium(float premium) { totalPremium=totalPremium+premium; } //Abstract methods to be used in the other three classes */ abstract public void setInsuredObjectName(String name); abstract public void setRiskAmount(float amount); abstract public void inputDetailsGUI(); abstract public void inputDetails(); abstract public void display(); abstract public String toString(); } import java.util.Scanner; import javax.swing.JOptionPane; /* * CIS 407 Week 10 Assignment 2*/ class AutomobileInsurance extends InsuranceAgentApp { /*define variables*/ private float riskAmount; private static float RATE=0.75f; private float premium;
+Background image of page 2
+/* * * * Call the super constructor and send type */ public AutomobileInsurance(String type) { super(type); } /*setters and getters*/ public static float getRate() { return RATE; } /** * return the premium */ public float getPremimum() { return premium; } public float getRiskAmount() { return riskAmount; } //@Override public void setInsuredObjectName(String name){ super.name=name; } /* sends the value of premium from setRiskAmount to setTotalPremium */ public void setRiskAmount(float riskAmount){ this.riskAmount=riskAmount;
+Background image of page 3
+Info iconThis preview has intentionally blurred sections. Sign up to view the full version.
+
+View Full Document Right Arrow Icon
+premium=(RATE*riskAmount)/100f; InsuranceAgentApp.setTotalPremium(premium); } public void display(){ System.out.print("Insurance type ="+super.getType()+"\n"); System.out.print("Insurance Entity Name ="+super.getInsuredObjectName()+"\n"); System.out.print("Insurance Risk Amount ="+getRiskAmount()+"\n"); System.out.print("Insurance RATE ="+getRate()+"\n"); System.out.print("Insurance Premium ="+getPremimum()+"\n"); } public void inputDetails(){ Scanner input = new Scanner(System.in); System.out.print("For insurance type :"+super.getType()+", enter Insured entity name :");
+################# 7###########
+ import javax.swing.*; import javax.swing.event.ChangeListener; import java.awt.*; import java.awt.event.ActionEvent; import java.awt.event.ActionListener;
+ /** * Week 7 Lab 10 Exercise 3 pg.937 * */ 
+public class JUpsideDown extends JFrame implements ActionListener {
+ // Declare variables
+ int x = 600; int y = 100; 
+String quote = new String("Knowledge is power"); 
+JButton flip = new JButton("Flip it"); 
+int t = 0; 
+/** * @param args */
+ public JUpsideDown() { 
+// Create container and add button and set layout and color
+ Container myCup = getContentPane(); 
+myCup.setBackground(Color.WHITE);
+ myCup.setLayout(new FlowLayout());
+ myCup.add(flip);
+ myCup.setVisible(true);
+ flip.addActionListener(this);
+ setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+}
+ // repaint when button is pressed 
+public void actionPerformed(ActionEvent e) {
+ t++; repaint(); 
+}
+ // Draw the phrase both ways 
+public void paint(Graphics g) {
+ super.paint(g);
+ Graphics pen = getGraphics();
+ if (t % 2 == 1) {
+ // Draw upside down 
+pen.setFont(new Font("Arial", Font.ITALIC, -12)); 
+pen.drawString(quote, x, y); 
+} else { 
+// Draw rightside up 
+Graphics pen2 = getGraphics();
+ pen2.setFont(new Font("Arial", Font.ITALIC, 12));
+ pen2.drawString(quote, 500, y); 
+}
+ }
+ public static void main(String args) {
+ // Create object, set size and visibility
+ JUpsideDown frame = new JUpsideDown(); 
+frame.setSize(800, 400); 
+frame.setVisible(true);
+ }
+ } 
+################## 8#################
+ import javax.swing.*; import javax.swing.event.ChangeListener; 
+import java.awt.*; import java.awt.event.ActionEvent; import java.awt.event.ActionListener; /** * Week 7 Lab 10 Exercise 3 pg.937 * */ 
+public class JUpsideDown extends JFrame implements ActionListener { // Declare variables int x = 600; int y = 100; 
+String quote = new String("Knowledge is power"); JButton flip = new JButton("Flip it"); int t = 0; /** * @param args */ public JUpsideDown() { // Create container and add button and set layout and color Container myCup = getContentPane(); myCup.setBackground(Color.WHITE); myCup.setLayout(new FlowLayout()); myCup.add(flip); myCup.setVisible(true); flip.addActionListener(this); setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); } // repaint when button is pressed public void actionPerformed(ActionEvent e) { t++; repaint(); } // Draw the phrase both ways public void paint(Graphics g) { super.paint(g); Graphics pen = getGraphics(); if (t % 2 == 1) { // Draw upside down pen.setFont(new Font("Arial", Font.ITALIC, -12)); pen.drawString(quote, x, y); } else { // Draw rightside up Graphics pen2 = getGraphics(); pen2.setFont(new Font("Arial", Font.ITALIC, 12)); pen2.drawString(quote, 500, y); } } public static void main(String args) { // Create object, set size and visibility JUpsideDown frame = new JUpsideDown(); frame.setSize(800, 400); frame.setVisible(true); } }

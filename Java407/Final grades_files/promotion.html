@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)http://www.awesomescreenshot.com/promotion.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<title>Diigo Promotion</title>
+	<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/kpcngaggbajehefdinhniockfhdhacnb">
+	<style type="text/css">
+	body{
+		padding: 0px;
+		margin: 0px;
+	}
+
+		#adsDiv a {
+			width: 100%;
+			height: 100%;
+			display: block;
+			background: url("images/promotion-banner.png");
+			position: relative;
+		}
+
+		#adsDiv .install-btn {
+			width: 87px;
+			height: 30px;
+			background: white;
+			color: #14d4ae;
+			font-size: 18px;
+			text-align: center;
+			cursor: pointer;
+			position: absolute;
+			right: 15px;
+			top: 15px;
+			line-height: 30px;
+			border-radius: 3px;
+
+		}
+
+	@media only screen and (-Webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5) {
+		#adsDiv a {
+			background: url("images/promotion-banner@2x.png");
+			background-size: 960px auto;
+		}
+	}
+	</style>
+</head>
+<body>
+	<!-- cpn -->
+	 <!-- <iframe id='previewBannerFrame' src='http://cpnn.cloudapp.net:63011/frameapidb/MSLzxu56obqsmAa7u' style='border:0;width:360px;height:50px;display:block;' scrolling='no'></iframe> -->
+
+	<!-- Appstr.io leaderboard unit -->
+	  <div id="adsDiv" style="border:0;width:960px;height:60px;overflow:hidden">
+		  <a href="https://chrome.google.com/webstore/detail/coinbag-track-your-coins/kpcngaggbajehefdinhniockfhdhacnb?utm_source=chrome-ntp-icon" target="_blank">
+			  <div class="install-btn">Install</div>
+		  </a>
+	 </div>
+
+<script type="text/javascript">
+	var a = document.getElementById('adsDiv');
+	var width = a.style.width;
+	var height = a.style.height;
+	console.log("post");
+	window.parent.postMessage({action:'adjustTopPromotionSize',width:width,height:height},'*');
+
+
+</script>
+
+
+</body></html>

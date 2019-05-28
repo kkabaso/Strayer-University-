@@ -1,0 +1,89 @@
+public class FinancialPortofolio
+{  
+    public static void main(String args[]){
+      double  totalValue;
+      int  portfolioNumber;
+      //double coupon = 10.0;
+      string  firstName;
+      string  lastName;
+      computeSavingsAccount(totalValue, portfolioNumber, firstName);
+      computeBonds(faceValue, numberOfBonds, bondName);
+      computeStocks(stockName,  numberOfShares,  stockValue);
+
+     // computeBill(pricePerPhotoBook, quantity);
+      //computeBill(pricePerPhotoBook, quantity, coupon);
+    
+      }
+    public static void computeSavingsAccount(double  totalValue, int portfolioNumber, string firstName)
+   //public static void SavingsAccount(double pricePerPhotoBook)
+       {
+       //double toTalDue;
+       double accountBalance;
+       string accountNumber;
+       totalValue = totalValue + accountBalance; 
+       //double newAmount;
+       //final double TAX_PAY = 0.80;
+       
+      // newAmount = pricePerPhotoBook * TAX_PAY;
+       //toTalDue =  pricePerPhotoBook + newAmount;
+       //return toTalDue;
+       //System.out.println("The total due of the Photo Book is $" + totalValue);
+       }
+   // public static void computeBill(double pricePerPhotoBook, int quantity)
+    public static void computeBonds(double faceValue, int numberOfBonds, string bondName)
+       {
+       //double toTalDue;
+        string  bondName;
+        double  faceValue;
+        int  numberOfBonds;
+        double totalBondsValue;
+
+//add the total bonds value (bond value multiplied by the number of bonds) to the portfolio total value
+        totalBondsValue = faceValue * numberOfBonds + totalValue;
+       //double newTotal;
+      // double newAmount;
+       //final double TAX_PAY = 0.80;
+       // newAmount = pricePerPhotoBook * TAX_PAY;
+        //newTotal = newAmount * quantity; 
+       // toTalDue = newTotal + (pricePerPhotoBook * quantity);
+        //return toTalDue;
+        System.out.println("The total due of all the order is $" + totalBondsValue);
+    }
+    public static void computeStocks(string  stockName, int numberOfShares, float  stockValue)
+       {
+       //double toTalDue;
+        string  stockName;
+        float  stockValue;
+        int  numberOfShares;
+        double totalStockValue;
+//The stocks object must add the total stocks value (stock value multiplied by the number of shares) 
+//to the total portfolio value
+        totalStockValue = stockValue * numberOfShares + totalValue;
+    /* public static void computeBill(double pricePerPhotoBook, int quantity, double coupon)
+       {
+       double toTalDue;
+       double newTotal;
+       double newAmount;
+  
+       final double TAX_PAY = 0.80;
+        newAmount = pricePerPhotoBook * TAX_PAY;
+        newTotal = newAmount * quantity; 
+        newAmount = pricePerPhotoBook * quantity;
+        toTalDue = newTotal + (pricePerPhotoBook * quantity);
+        toTalDue = toTalDue - coupon;
+        //return toTalDue;*/
+  System.out.println("The total Stock Value is $" +  totalStockValue);
+//Portfolio Name:      Jane’s Portfolio
+//Savings account:   Blue Bank ($2000.00)
+//Bonds:                   Derby ($3000.00)
+//Stocks:                  IBM ($10000.00)
+//Portfolio value:      $15000.00
+        System.out.println("The Portfolio Name : " +  firstName + " ’s Portfolio");
+        System.out.println("The Savings account: Blue Bank  ($" +  totalValue + ")");
+   	System.out.println("The Bonds:  ($" +  totalBondsValue + ")");
+	System.out.println("The Stocks" + coupon + " is $" +  totalStockValue + ")");
+	System.out.println("Portfolio value:  ($" +  totalValue + ")");
+    }
+    
+  
+}  

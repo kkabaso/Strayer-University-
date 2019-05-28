@@ -1,0 +1,891 @@
+Fundamentals of Computer Science II (CSC-152 99F)
+
+[Instructions] [Search] [Current] [Syllabus] [Links] [Handouts] [Outlines] [Labs] [More Labs] [Assignments] [Quizzes] [Exams] [Examples] [Book] [Tutorial] [API]
+
+Notes on Assignment 3: Recursion and Big-O
+Introductory Notes
+Problems from Java Plus Data Structures
+24. Square Root
+27. Number of Paths in a Grid
+28. Collatz Sequences
+29. Collatz Sequences, Revisited
+Big O
+(a) Shortest Path
+(b) Smallest Value
+(c) Smallest Value, Revisited
+(d) Least Difference
+Introductory Notes
+Do not read these notes until after you've turned in the assignment.
+
+As you may have noted, I've released this answer key before grading your homeworks. That's because I think you'll want to refer to it as you work on the exam. I'll add some general comments on your assignments after I've graded them.
+
+As many of you have noted, this is a lot like a long math assignment. Just as in math assignments you don't get all of the problems graded, you will find that I will not grade all of the problems on this assignment.
+
+You can find all the example programs in http://www.math.grin.edu/~rebelsky/Courses/CS152/99F/Examples/HW3/.
+
+Problems from Java Plus Data Structures
+Do problems 24, 27, 28, and 29 of Chapter 5.
+
+24. Square Root
+The following defines a function that calculates an approximation of the square root of a number, N, starting with an approximate answer, A, within the specified tolerance, T.
+
+Sqrt(N, A, T) 
+  A, if |N-A2| <= T
+
+  Sqrt(N, (A2+N)/(2*A), T), if |N-A2| > T
+(a) What preconditions does Sqrt require in order to work correctly?
+
+A Solution
+N must be nonnegative, since it is impossible to compute the square root of a negative number.
+
+A must be smaller than the square root of the largest possible value that can be represented. It must also remain smaller, but I don't know how one could guarantee that.
+
+A must be nonzero (we divide by it).
+
+A should be positive if we want a positive square root.
+
+T must be positive (it cannot be 0 or negative).
+
+(b) Write a recursive version of sqrt, using the definition given above.
+
+A Solution
+I've chosen a slightly different technique than normal. I've set up a general interface for ``things that can sort'' and then written a tester for that interface as well as an implementation with the recursive version. The recursive implementation also includes a main method (which I would typically put in a separate class, except that this eases testing).
+
+
+import RootComputer;
+import RootTester;
+import SimpleOutput;
+
+/**
+ * Compute the square root of a value supplied on the command
+ * line.  
+ * Usage:
+ *   java RecursiveRoot value tolerance
+ * If you'd like to know what steps it goes through, supply
+ * an initial guess, too.
+ *   java RecursiveRoot value tolerance guess
+ *
+ * @author Samuel A. Rebelsky
+ * @version 1.0 of October 1999
+ */
+public class RecursiveRoot 
+  implements RootComputer
+{
+
+  // +---------+-------------------------------------------------
+  // | Methods |
+  // +---------+
+
+  /**
+   * Compute the square root of num to within a specified tolerance, 
+   * using estimate guess as the current estimate.  Uses Newton's
+   * method for approximation.  If observer is non-null, prints out
+   * information at each step.
+   */
+  public double sqrt(double num, double guess, double tolerance,
+                     SimpleOutput observer) {
+    // Observations:
+    if (observer != null) {
+      observer.println("N: " + num 
+                       + "; A: " + guess 
+                       + "; T: " + tolerance);
+    }
+    // Base case: the guess is good enough.
+    if (Math.abs(guess*guess-num) < tolerance) {
+      return guess;
+    }
+    // Recursive case: Improve the guess and try again
+    else {
+      double newguess = (num + guess*guess) / (2*guess);
+      return sqrt(num, newguess, tolerance, observer);
+    }
+  } // sqrt(num,num,num)(
+
+  // +------+----------------------------------------------------
+  // | Main |
+  // +------+
+
+  public static void main(String[] args) {
+    // Prepare for output.
+    SimpleOutput out = new SimpleOutput();
+    // Create something for testing.
+    RootTester tester = new RootTester();
+    // And test
+    if (!tester.test(args, new RecursiveRoot(), out)) {
+      out.println("Usage: java RecursiveRoot num tolerance");
+      out.println("   Or: java RecursiveRoot num tolerance firstguess");
+    }
+  } // main(String[])
+} // class RecursiveRoot
+
+
+Here's the test program.
+
+
+import RootComputer;
+
+/**
+ * A simple way to test objects that can compute square roots.
+ *
+ * @author Samuel A. Rebelsky
+ * @version 1.0 of October 1999
+ */
+public class RootTester {
+  /**
+   * Run a RootComputer on values given by the command line.
+   * The structure of the values is
+   *    num tolerance
+   * Or
+   *    num tolerance firstGuess
+   */
+  public boolean test(String[] args, RootComputer computer, SimpleOutput out) {
+    // Have we encountered an error?
+    boolean error = false;
+    // Let the user know how to use this if it was started incorrectly.
+    if ((args.length < 2) || (args.length > 3)) {
+      return false;
+    }
+    // Set up the observer.
+    SimpleOutput observer = null;
+    // Get the number, tolerance, and guess
+    double num = 0;
+    double tol = 0;
+    double guess = 1;
+    try { num = (new Double(args[0])).doubleValue(); }
+    catch (Exception e) {
+      out.println("Error: '" + args[0] + "' is not a number.");
+      error = true;
+    }
+    try { tol = (new Double(args[1])).doubleValue(); }
+    catch (Exception e) {
+      out.println("Error: '" + args[1] + "' is not a number.");
+      error = true;
+    }
+    if (args.length == 3) {
+      observer = out;
+      try { guess = (new Double(args[2])).doubleValue(); }
+      catch (Exception e) {
+        out.println("Error: '" + args[2] + "' is not a number.");
+        error = true;
+      }
+    } // is there a guess
+    // Check valid values.
+    if (num < 0) {
+      out.println("Cannot compute square roots of negative numbers.");
+      error = true;
+    }
+    if (tol <= 0) {
+      out.println("Cannot compute square roots to that tolerance.");
+      error = true;
+    }
+    // Has there been an error?  If so, stop.
+    if (error) {
+      return false;
+    }
+    else {
+      double root = computer.sqrt(num, guess, tol, observer);
+      out.println("The square root of " + num 
+                  + " is approximately " + root);
+      out.println(root + " squared is " + (root*root));
+      return true;
+    }
+  } // test(String[], RootComputer)
+
+} // class RootTester
+
+
+Here's the interface.
+
+
+import SimpleOutput;
+
+/**
+ * Things that now how to approximate square roots.
+ *
+ * @author Samuel A. Rebelsky
+ * @version 1.0 of October 1999
+ */
+public interface RootComputer {
+  /**
+   * Compute the square root of num using an initial approximation
+   * and a specification of how close we want to be.  Print out
+   * information if the observer is non-null.
+   */
+  public double sqrt(double num, double guess, double tolerance,
+                     SimpleOutput observer);
+} // class RootComputer 
+
+
+Here's some sample output.
+
+ji RecursiveRoot 3 0.0000001 5 
+N: 3.0; A: 5.0; T: 1.0E-7
+N: 3.0; A: 2.8; T: 1.0E-7
+N: 3.0; A: 1.9357142857142857; T: 1.0E-7
+N: 3.0; A: 1.7427648919346335; T: 1.0E-7
+N: 3.0; A: 1.7320837413295722; T: 1.0E-7
+N: 3.0; A: 1.7320508078819778; T: 1.0E-7
+The square root of 3.0 is approximately 1.7320508078819778
+1.7320508078819778 squared is 3.000000001084612
+(c) Write an iterative version of sqrt, using the definition given above.
+
+A Solution
+
+import RootComputer;
+import RootTester;
+import SimpleOutput;
+
+/**
+ * Compute the square root of a value supplied on the command
+ * line.  
+ * Usage:
+ *   java IterativeRoot value tolerance
+ * If you'd like to know what steps it goes through, supply
+ * an initial guess, too.
+ *   java IterativeRoot value tolerance guess
+ *
+ * @author Samuel A. Rebelsky
+ * @version 1.0 of October 1999
+ */
+public class IterativeRoot 
+  implements RootComputer
+{
+
+  // +---------+-------------------------------------------------
+  // | Methods |
+  // +---------+
+
+  /**
+   * Compute the square root of num to within a specified tolerance, 
+   * using estimate guess as the current estimate.  Uses Newton's
+   * method for approximation.  If observer is non-null, prints out
+   * information at each step.
+   */
+  public double sqrt(double num, double guess, double tolerance,
+                     SimpleOutput observer) {
+    if (observer != null) {
+      observer.println("N: " + num 
+                       + "; T: " + tolerance);
+    }
+    while (Math.abs(guess*guess-num)  >= tolerance) {
+      if (observer != null) 
+        observer.println("  A: " + guess);
+      guess = (num + guess*guess) / (2*guess);
+    }
+    observer.println("Final estimate: " + guess);
+    return guess;
+  } // sqrt(num,num,num,SimpleOutput)
+
+  // +------+----------------------------------------------------
+  // | Main |
+  // +------+
+
+  public static void main(String[] args) {
+    // Prepare for output.
+    SimpleOutput out = new SimpleOutput();
+    // Create something for testing.
+    RootTester tester = new RootTester();
+    // And test
+    if (!tester.test(args, new IterativeRoot(), out)) {
+      out.println("Usage: java IterativeRoot num tolerance");
+      out.println("   Or: java IterativeRoot num tolerance firstguess");
+    }
+  } // main(String[])
+} // class IterativeRoot
+
+
+(d) Write a driver to test the versions of sqrt
+
+A Solution
+Whoops. Did that already.
+
+27. Number of Paths in a Grid
+We want to count the number of possible paths to move from row 1, column 1 to row N, column N in a two-dimensional grid. Steps are restricted to going up one cell or going one cell to the right. It is not possible to move diagonally. The illustration shows three of many paths, with N = 10:
+
+(a) The following function, numPaths, is supposed to count the number of paths, but it has some problems. Debug the function.
+
+  int numPaths(int row, int col, int n)
+  {
+    if (row == n)
+      return 1;
+    else if (col == n)
+      return numPaths + 1;
+    else
+      return numPaths(row+1, col) * numPaths(row, col+1);
+  } // numPaths(int, int, int)
+A Solution
+The first problem with this code is that we don't know what it does. That is, what do row and col have to do with the number of paths? It seems that this computes ``the number of paths from point (row,col) to (n,n)''.
+
+There are some clear syntactic problems in this code.
+
+The first call to numPaths has no parameters.
+The second and third calls don't have n.
+But there are also some semantic problems with the code.
+
+If you're already in the nth row or column, there's only one path to (n,n), so the second return is incorrect. (That means we can correct two errors at once.)
+The number of paths from (row,col) to (n,n) is ``the number of paths if you go up first'' plus ``the number of paths if you go right first''. The code uses times.
+Putting it all together,
+
+
+/**
+ * Compute the number of paths from (1,1) to (n,n).  N is given on
+ * the command line.  Is not very friendly about errors.
+ *
+ * @author Samuel A. Rebelsky
+ * @version 1.0 of October 1999
+ */
+public class NumPaths {
+  /**
+   * The number of recursive calls.
+   */
+  protected int calls = 0;
+
+  /**
+   * Compute the number of paths from (row,col) to (n,n).
+   * (row,col) should not be (n,n).
+   */
+  public int numPaths(int row, int col, int n)
+  {
+    calls++;
+    if (row == n)
+      return 1;
+    else if (col == n)
+      return 1;
+    else
+      return numPaths(row+1, col, n) + numPaths(row, col+1, n);
+  } // numPaths(int, int, int)
+
+  public static void main(String[] args) {
+    SimpleOutput out = new SimpleOutput();
+    int n = Integer.parseInt(args[0]);
+    NumPaths helper = new NumPaths();
+    int count = helper.numPaths(1,1,n);
+    out.println("There are " + count + " paths to (" + n + "," + n + ")");
+    out.println("  That took " + helper.calls + " calls.");
+  } // main(String[])
+} // NumPaths
+
+
+Here's some testing.
+
+% ji NumPaths 4
+There are 20 paths to (4,4)
+  That took 39 calls.
+% ji NumPaths 8
+There are 3432 paths to (8,8)
+  That took 6863 calls.
+% ji NumPaths 9
+There are 12870 paths to (9,9)
+  That took 25739 calls.
+(b) After you have corrected the function, trace the execution of numPaths with n = 4 by hand. Why is this algorithm inefficient?
+
+A Solution
+Note that I've boldfaced the part to be ``executed'' in each step and then italicized the result.
+
+np(1,1,4)
+= np(2,1,4) + np(1,2,4)
+= np(2,1,4) + np(1,2,4)
+= (np(3,1,4) + np(2,2,4)) + np(1,2,4)
+= (np(3,1,4) + np(2,2,4)) + np(1,2,4)
+= ((np(4,1,4) + np(3,2,4)) + np(2,2,4)) + np(1,2,4)
+= ((np(4,1,4) + np(3,2,4)) + np(2,2,4)) + np(1,2,4)
+= ((1 + np(3,2,4)) + np(2,2,4)) + np(1,2,4)
+= ((1 + np(3,2,4)) + np(2,2,4)) + np(1,2,4)
+= ((1 + (np(4,2,4) + np(3,3,4))) + np(2,2,4)) + np(1,2,4)
+= ((1 + (np(4,2,4) + np(3,3,4))) + np(2,2,4)) + np(1,2,4)
+= ((1 + (1 + (np(4,3,4) + np(3,4,4)))) + np(2,2,4)) + np(1,2,4)
+= ((1 + (1 + (1 + np(3,4,4)))) + np(2,2,4)) + np(1,2,4)
+= ((1 + (1 + (1 + np(3,4,4)))) + np(2,2,4)) + np(1,2,4)
+= ((1 + (1 + (1 + 1))) + np(2,2,4)) + np(1,2,4)
+= ((1 + (1 + (1 + 1))) + np(2,2,4)) + np(1,2,4)
+= ((1 + (1 + 2)) + np(2,2,4)) + np(1,2,4)
+= ((1 + (1 + 2)) + np(2,2,4)) + np(1,2,4)
+= ((1 + 3) + np(2,2,4)) + np(1,2,4)
+= ((1 + 3) + np(2,2,4)) + np(1,2,4)
+= (4 + np(2,2,4)) + np(1,2,4)
+= (4 + np(2,2,4)) + np(1,2,4)
+= (4 + (np(3,2,4) + np(2,3,4))) + np(1,2,4)
+= (4 + (np(3,2,4) + np(2,3,4))) + np(1,2,4)
+= (4 + ((np(4,2,4) + np(3,3,4)) + np(2,3,4))) + np(1,2,4)
+= (4 + ((np(4,2,4) + np(3,3,4)) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + np(3,3,4)) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + np(3,3,4)) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + (np(4,3,4) + np(3,4,4))) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + (np(4,3,4) + np(3,4,4))) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + (1 + np(3,4,4))) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + (1 + np(3,4,4))) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + (1 + 1)) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + (1 + 1)) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + 2) + np(2,3,4))) + np(1,2,4)
+= (4 + ((1 + 2) + np(2,3,4))) + np(1,2,4)
+= (4 + (3 + np(2,3,4))) + np(1,2,4)
+= (4 + (3 + np(2,3,4))) + np(1,2,4)
+= (4 + (3 + (np(3,3,4) + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + (np(3,3,4) + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + ((np(4,3,4) + np(3,4,4)) + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + ((np(4,3,4) + np(3,4,4)) + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + ((1 + np(3,4,4)) + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + ((1 + np(3,4,4)) + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + ((1 + 1) + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + ((1 + 1) + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + (2 + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + (2 + np(2,4,4)))) + np(1,2,4)
+= (4 + (3 + (2 + 1))) + np(1,2,4)
+= (4 + (3 + (2 + 1))) + np(1,2,4)
+= (4 + (3 + 3)) + np(1,2,4)
+= (4 + (3 + 3)) + np(1,2,4)
+= (4 + 6) + np(1,2,4)
+= (4 + 6) + np(1,2,4)
+= 10 + np(1,2,4)
+= 10 + np(1,2,4)
+= 10 + (np(2,2,4) + np(1,3,4))
+= 10 + (np(2,2,4) + np(1,3,4))
+= 10 + ((np(3,2,4) + np(2,3,4)) + np(1,3,4))
+= 10 + ((np(3,2,4) + np(2,3,4)) + np(1,3,4))
+= 10 + (((np(4,2,4) + np(3,3,4)) + np(2,3,4)) + np(1,3,4))
+= 10 + (((np(4,2,4) + np(3,3,4)) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + np(3,3,4)) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + np(3,3,4)) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + (np(4,3,4) + np(3,4,4))) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + (np(4,3,4) + np(3,4,4))) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + (1 + np(3,4,4))) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + (1 + np(3,4,4))) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + (1 + 1)) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + (1 + 1)) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + 2) + np(2,3,4)) + np(1,3,4))
+= 10 + (((1 + 2) + np(2,3,4)) + np(1,3,4))
+= 10 + ((3 + np(2,3,4)) + np(1,3,4))
+= 10 + ((3 + np(2,3,4)) + np(1,3,4))
+= 10 + ((3 + (np(3,3,4) + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + (np(3,3,4) + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + ((np(4,3,4) + np(3,4,4)) + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + ((np(4,3,4) + np(3,4,4)) + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + ((1 + np(3,4,4)) + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + ((1 + np(3,4,4)) + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + ((1 + 1) + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + ((1 + 1) + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + (2 + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + (2 + np(2,4,4))) + np(1,3,4))
+= 10 + ((3 + (2 + 1)) + np(1,3,4))
+= 10 + ((3 + (2 + 1)) + np(1,3,4))
+= 10 + ((3 + 3) + np(1,3,4))
+= 10 + ((3 + 3) + np(1,3,4))
+= 10 + (6 + np(1,3,4))
+= 10 + (6 + np(1,3,4))
+= 10 + (6 + (np(2,3,4) + np(1,4,4)))
+= 10 + (6 + (np(2,3,4) + np(1,4,4)))
+= 10 + (6 + ((np(3,3,4) + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + ((np(3,3,4) + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + (((np(4,3,4) + np(3,4,4)) + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + (((np(4,3,4) + np(3,4,4)) + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + (((1 + np(3,4,4)) + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + (((1 + np(3,4,4)) + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + (((1 + 1) + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + (((1 + 1) + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + ((2 + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + ((2 + np(2,4,4)) + np(1,4,4)))
+= 10 + (6 + ((2 + 1) + np(1,4,4)))
+= 10 + (6 + ((2 + 1) + np(1,4,4)))
+= 10 + (6 + (3 + np(1,4,4)))
+= 10 + (6 + (3 + np(1,4,4)))
+= 10 + (6 + (3 + 1))
+= 10 + (6 + (3 + 1))
+= 10 + (6 + 4)
+= 10 + (6 + 4)
+= 10 + 10
+= 10 + 10
+= 20
+(c) We can improve the efficiency of this algorithm by using dynamic programming. In this case, we use a two-dimensional array of integer values. This keeps the function from having to recalculate values that it has already done. Design and code a version of numPaths that uses this approach.
+
+A Solution
+Here is my revised function. I've used the same technique that you saw in the book. I've used long rather than int because I expect to deal with bigger numbers in my examples.
+
+
+/**
+ * Compute the number of paths from (1,1) to (n,n).  N is given on
+ * the command line.  Is not very friendly about errors.  Uses
+ * a two-dimensional array to keep track of previously computed
+ * values.
+ *
+ * @author Samuel A. Rebelsky
+ * @version 1.0 of October 1999
+ */
+public class NewNumPaths {
+  /** The number of recursive calls. */
+  protected long calls = 0;
+
+  /**
+   * A two dimensional array to keep track of the number of paths
+   * from (x,y) to (n,n).  pathsFrom[x-1][y-1] gives the number
+   * of paths from (x,y) to (n,n).  If it is not yet set at a
+   * particular position, it has the value -1 in that position.
+   */
+  protected long[][] pathsFrom;
+
+  /**
+   * Compute the number of paths from (row,col) to (n,n).
+   * (row,col) should not be (n,n).
+   */
+  public long numPaths(int row, int col, int n)
+  {
+    calls++;
+    // Base cases:
+    if ((row == n) || (col == n)) {
+      return 1;
+    }
+    else {
+      // Make sure that the array is initialized.
+      if (pathsFrom == null) {
+        pathsFrom = new long[n][n];
+        for (int i = 0; i < n; ++i)
+          for (int j = 0; j < n; ++j)
+            pathsFrom[i][j] = -1;
+      } // if the array is uninitialized
+      // Is the array filled in for (row,col)?  If not, fill it in.
+      if (pathsFrom[row-1][col-1] == -1) {
+        pathsFrom[row-1][col-1] = 
+          numPaths(row+1,col,n) + numPaths(row,col+1,n);
+      }
+      // Return the value from the array.
+      return pathsFrom[row-1][col-1];
+    } // "recursive" case
+  } // numPaths(int, int, int)
+
+  public static void main(String[] args) {
+    SimpleOutput out = new SimpleOutput();
+    int n = Integer.parseInt(args[0]);
+    NewNumPaths helper = new NewNumPaths();
+    long count = helper.numPaths(1,1,n);
+    out.println("There are " + count + " paths to (" + n + "," + n + ")");
+    out.println("  That took " + helper.calls + " calls.");
+  } // main(String[])
+} // NewNumPaths
+
+
+(d) Show an invocation of the version of numPaths in Part (c), including any array initialization necessary.
+
+A Solution
+No array initialization is necessary; I've made it part of the function. Here are some sample runs.
+
+% ji NewNumPaths 4
+There are 20 paths to (4,4)
+  That took 19 calls.
+% ji NewNumPaths 8
+There are 3432 paths to (8,8)
+  That took 99 calls.
+% ji NewNumPaths 9 
+There are 12870 paths to (9,9)
+  That took 129 calls.
+% ji NewNumPaths 15
+There are 40116600 paths to (15,15)
+  That took 393 calls.
+(e) Rewrite numPaths iteratively (still using the table).
+
+A Solution
+Here is my solution. Note that we had to fill in the array ``backwards'' (from the end to the beginning).
+
+
+/**
+ * Compute the number of paths from (1,1) to (n,n).  N is given on
+ * the command line.  Is not very friendly about errors.  Uses
+ * a two-dimensional array to keep track of previously computed
+ * values.
+ *
+ * @author Samuel A. Rebelsky
+ * @version 1.0 of October 1999
+ */
+public class IterativeNumPaths {
+
+  /** Are we testing? */
+  protected boolean testing = false;
+
+  /**
+   * Compute the number of paths from (row,col) to (n,n).
+   * (row,col) should not be (n,n).
+   */
+  public int numPaths(int row, int col, int n)
+  {
+  
+    // A two dimensional array to keep track of the number of paths
+    // from (x,y) to (n,n).  pathsFrom[x-1][y-1] gives the number
+    // of paths from (x,y) to (n,n).
+    int[][] pathsFrom = new int[n][n];
+    // We can fill in the last row and column.  There is only
+    // one path from (x,n) or (n,y) to (n,n) .
+    for (int i = 0; i < n; ++i) {
+      pathsFrom[i][n-1] = 1;
+      pathsFrom[n-1][i] = 1;
+    }
+    // Move backwards, a row at a time, filling in the distances.
+    for (int x = n-2; x >= 0; x--)
+      for (int y = n-2; y >= 0; y--)
+        pathsFrom[x][y] = pathsFrom[x+1][y] + pathsFrom[x][y+1];
+    // Testing: Print out the array
+    if (testing) {
+      SimpleOutput out = new SimpleOutput();
+      for (int x = 1; x <= n; ++x) {
+        for (int y = 1; y <= n; ++y) {
+          out.print(pathsFrom[x-1][y-1] + " ");
+        }
+        out.println();
+      }
+    } // if testing
+    // That's it, we're done.
+    return pathsFrom[row-1][col-1];
+  } // numPaths(int, int, int)
+
+  public static void main(String[] args) {
+    SimpleOutput out = new SimpleOutput();
+    int n = Integer.parseInt(args[0]);
+    IterativeNumPaths helper = new IterativeNumPaths();
+    int count = helper.numPaths(1,1,n);
+    out.println("There are " + count + " paths to (" + n + "," + n + ")");
+  } // main(String[])
+} // IterativeNumPaths
+
+
+Here are some examples.
+
+% ji IterativeNumPaths 4
+There are 20 paths to (4,4)
+% ji IterativeNumPaths 8
+There are 3432 paths to (8,8)
+% ji IterativeNumPaths 9 
+There are 12870 paths to (9,9)
+% ji IterativeNumPaths 15
+There are 40116600 paths to (15,15)
+(f) How do the various versions of numPaths compare in terms of time efficiency? Space efficiency? Clarity?
+
+A Solution
+Running Time
+
+The initial recursive solution is atrocious in terms of running time. It's difficult to write the recurrence relation, since we recurse on two different terms. I'll write fn(a,b) for ``the amount of time to compute numPaths(a,b,n)'' like
+
+fn(n,b) = 1
+fn(a,n) = 1
+fn(a,b) = fn(a+1,b) + fn(a,b+1)
+We note that
+
+fn(a+1,b) > fn(a+1,b+1)
+fn(a,b+1) > fn(a+1,b+1)
+We can write
+
+fn(a,b) <= 2*fn(a+1,b+1)
+So
+
+fn(1,1)
+fn(1,1) <= 2*fn(2,2)
+fn(1,1) <= 2*2*fn(3,3)
+fn(1,1) <= 2*2*2*fn(4,4)
+fn(1,1) <= 2k*fn(1+k,1+k)
+That is, fn(1,1) is bounded below by 2^n. Yowch!
+
+The other two are approximately O(n2), since both fill in an n-by-n array.
+
+Space Efficiency
+
+We might be somewhat worried by the depth of recursion in the highly-recursive version. It seems that the recusion stack should not get more than O(n) deep, but I wouldn't swear to it (it's also beyond the scope of what I'd expect you to do). The other two clearly use O(n2) space.
+
+Clarity
+
+Until you explain what's going on, it seems that none of these is very clear. The array makes it even less clear. Of these, I think the recursive one with the array strikes the best balance: once you understand the array, the way it's filled in makes sense. Your opinion may differ.
+
+28. Collatz Sequences
+The Collatz sequences (also known as the Ulam sequences and the 3X+1 sequences) are defined recursively as:
+
+f(X+1) =
+  f(X)/2, if f(X) is even
+  f(3*X+1), if f(X) is odd
+Note that there is no base case here. That's because there are multiple Collatz sequences, which depend on your selection of the first value. For example, the Collatz sequence starting with 1 is: 1, 4, 2, 1, 4, 2, .... (1 is odd, so the next element is 1*3+1. 4 is even, so the next element is 4/2. 2 is even, so the next element is 1.) Similarly, the Collatz sequence starting with 16 is: 16, 8, 4, 2, 1, 4, 2, 1, ....
+
+(a) What is the Collatz sequence starting with 7?
+
+A Solution
+7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1, 4, 2, 1, ...
+
+(b) What is the Collatz sequence starting with 8?
+
+A Solution
+8, 4, 2, 1, 4, 2, 1, ...
+
+(c) What is the Collatz sequence starting with 15?
+
+A Solution
+15, 46, 23, 70, 35, 106, 53, 160, 80, 40, 20, 10, 5, 16, 8, 4, 2, 1, 4, ...
+
+29. Collatz Sequences, Revisited
+As you may have noted, the values in the Collatz sequences we've examined rise and fall. One might want to write a function that keeps stepping through the Collatz sequence until the current value reaches a particular range. We might write that function as:
+
+        public int collatzInRange(int x, int lower, int upper)
+        {
+                if ((x >= lower) && (x <= upper))
+                        return x;
+                else if (x % 2 == 0)
+                        return collatzInRange(x/2, lower, upper);
+                else
+                        return collatzInRange(3*x+1, lower, upper);
+        }
+(a) What problems come up in verifying this function?
+
+A Solution
+In our typical analysis of recursive functions, we want to be able to verify termination by using the ``smaller caller'' criterion. But it's hard to tell whether x gets closer to the range. (Our examples earlier suggest that the sequence varies wildly.)
+
+(b) Would any preconditions help you solve those problems?
+
+A Solution
+No, not really.
+
+(c) You may have observed that all the Collatz sequences we've looked at eventually resolve themselves to the cycle 1,4,2,1,4,2,.... Can you find a sequence that doesn't?
+
+A Solution
+I decided to write a short program that lets me generate Collatz sequences.
+
+
+import SimpleOutput;
+
+/**
+ * Give a sequence of 100 Collatz numbers starting with whatever
+ * value is given on the command line.  Does not do any
+ * error checking of input.
+ *
+ * @author Samuel A. Rebelsky
+ * @version 1.0 of October 1999
+ */
+public class Collatz {
+  public static void main(String[] args) {
+    // Get a starting value.
+    long val = Integer.parseInt(args[0]);
+    // Prepare for output.
+    SimpleOutput out = new SimpleOutput();
+    // Output 100 values
+    for (int i = 0; i < 100; ++i) {
+      // Print the current value
+      out.print(val + " ");
+      // Move on to the next value
+      if (val % 2 == 0) 
+        val = val / 2;
+      else
+        val = 3*val + 1;
+    } // for
+    out.println();
+  } // main(String[])
+
+} // class Collatz
+
+
+I then tried to generate a lot of Collatz sequences (starting with odd numbers, since even numbers ``degnerate'' to smaller odd numbers). 27 is interesting, since it takes a long time to get to 4, 1, 2 (but it still does). 31 also takes awhile. I quickly realized that I wasn't getting anywhere. Time to make the computer help more. I did note in my experiments that the sequence can get really big (over 9000) before settling down.
+
+I'll admit that after trying the values from 1 to 1000, I could not find a sequence that didn't settle down to 1,4,2. I then tried an Internet search and found a number of articles on the Collatz problem. One at http://www.treasure-troves.com/math/CollatzProblem.html indicates that it seems that all positive values less than 3*253 have been tested.
+
+However, if you start with negative numbers (or with 0), it's clear you can get other sequences.
+
+0, 0, 0, ...
+-1, -2, -1, -2, ...
+-5, -14, -7, -20, -10, -5, ...
+Big O
+Determine the running time (Big-O notation) of each of the following algorithms. Note that you may have to come up with an appropriate metric for the size of each problem.
+
+(a) Shortest Path
+Suppose you have N locations connected by sidewalks.
+To find the shortest path from location A to location B ...
+List all the paths from A to B
+Find the distance of each path.
+Take the smallest of all those values.
+A Solution
+There is one path that goes directly from A to B.
+There are N-2 paths that use two sidewalks. That is, that stop at one location between A and B (since there are N-2 locations other than A and B).
+There are (N-2)*(N-3) paths that use three sidewalks (stop at two locations between A and B). We choose one, C, of the N-2 other than A or B. We then go to another one, D, of the N-3 other than A, B, or C. We then go to B.
+Generalizing, there are (N-2)*(N-3)*...*(N-K) paths that use K sidewalks.
+When K = N-1 (the worst case), there are (N-2)*(N-3)*...*1 different possible paths.
+That is (N-2)! factorial. This is O(N!).
+(b) Smallest Value
+To find the smallest value in a collection ...
+Set smallestSoFar to one value in the collection
+While unchecked values remain in the collectoin
+  Pick one
+  If that value is smaller than guess then
+    Set smallestSoFar to that value
+Return smallestSoFar
+A Solution
+We look at each value once. There are N values. Hence, this is O(N).
+
+(c) Smallest Value, Revisited
+To find the smallest value in a collection ...
+If the collection has only one element
+  Return that element
+Otherwise
+  Split the collection into two equal halves
+  Find the smallest value in each half
+  Return the smaller of those two values
+A Solution
+We can do this the easy way: we look at each value once. There are n values, so this is still O(n). While this doesn't count the split and other stuff, we do note that each time we split, we look at at least one values.
+
+We can also use recurrence relations. Let f(n) be the running time.
+
+f(1) = 1
+f(n) = 1 + 2*f(n/2) + 1
+That is, 1 step to split (using our easy split technique with arrays), 2 recursive calls with half the collection, and 1 step to join the results.
+
+Working that out for a few steps.
+
+f(n) = 2 + 2*f(n/2)
+f(n) = 2 + 2*(2 + 2*f(n/2/2))
+f(n) = 2 + 4 + 4*f(n/4)
+f(n) = 2 + 4 + 4*(2 + 2*(f(n/4/2)))
+f(n) = 2 + 4 + 8 + 8*f(n/8)
+Generalizing,
+
+f(n) = 21 + 22 + ... 2k + 2k*f(n/2k)
+When k = log2n,
+
+f(n) = 21 + 22 + ... 2log2n + 2log2n
+f(n) = 21 + 22 + ... n + n.
+f(n) = 2 + 4 + 8 + ... + + n/4 + n/2 + 2*n
+We note that all the early stuff adds up to less than n. So
+
+f(n) <= 3*n
+Hence, f(n) is in O(n).
+
+(d) Least Difference
+To find the smallest difference between any two 
+  different numbers in a collection ...
+Set estimate to ``infinity''
+For each value, v, in the collection
+  For each value, u, not equal to v
+    If |u-v| < estimate then
+      Set estimate to |u-v|
+Return estimate
+A Solution
+There are two nested loops.
+
+The outer loop repeats n times.
+In each repetition, we do the inner loop.
+The inner loop repeats n-1 times for one step of the outer loop.
+Hence, this is an O(n2) algorithm.
+
+History
+Thursday, 7 October 1999
+
+Created.
+Copied general structure from assignment 3.
+Added text of problems from Java Plus Data STructures
+Saturday, 10 October 1999
+
+Filled in answers up to the Collatz problem.
+Sunday, 11 October 1999
+
+Worked on more ideas for the Collatz problem.
+Monday, 12 October 1999
+
+Filled in answers for the second half.
+[Instructions] [Search] [Current] [Syllabus] [Links] [Handouts] [Outlines] [Labs] [More Labs] [Assignments] [Quizzes] [Exams] [Examples] [Book] [Tutorial] [API]
+
+Disclaimer Often, these pages were created "on the fly" with little, if any, proofreading. Any or all of the information on the pages may be incorrect. Please contact me if you notice errors.
+
+This page may be found at http://www.math.grin.edu/~rebelsky/Courses/CS152/99F/Assignments/notes.03.html
+
+Source text last modified Mon Oct 11 09:44:21 1999.
+
+This page generated on Mon Nov 1 09:48:11 1999 by Siteweaver. Validate this page's HTML.
+
+Contact our webmaster at rebelsky@grinnell.edu

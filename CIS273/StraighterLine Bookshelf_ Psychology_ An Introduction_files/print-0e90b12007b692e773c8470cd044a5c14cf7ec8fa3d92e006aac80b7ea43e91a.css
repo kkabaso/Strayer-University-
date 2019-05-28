@@ -1,0 +1,1 @@
+@media print{body>*{display:none !important;height:0px !important;width:0px !important;overflow:hidden}body:before{content:"To print, please use the print page range feature within the application.";display:block !important}}

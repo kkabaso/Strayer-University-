@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div.gallery {
+    border: 1px solid #ccc;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.responsive {
+    padding: 0 6px;
+    float: left;
+    width: 24.99999%;
+}
+
+@media only screen and (max-width: 700px) {
+    .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .responsive {
+        width: 100%;
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+</style>
+</head>
+<body>
+
+<h2> Image Gallery</h2>
+
+<table border = "0px" bordercolor= "solid white" width="80%"  height="auto" cellpadding="5" cellspacing="1">
+     <caption><b>Responsive Image Gallery</b></caption><br/>
+<tr><td>
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="6.jpg">
+      <img src="6.jpg" alt="6" width="600" height="auto">
+    </a>
+    <div class="desc">2018 Mercedes-Benz E-class Wagon</div>
+  </div>
+</div>
+
+</td><td>
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="7.jpg">
+      <img src="7.jpg" alt="7" width="600" height="auto">
+    </a>
+    <div class="desc">2017 Audi RS3 Sportback facelift</div>
+  </div>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="2.jpg">
+      <img src="2.jpg" alt="2" width="600" height="auto">
+    </a>
+    <div class="desc">2018 BMW 640i Gran Turismo</div>
+  </div>
+</div>
+</td><td>
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="8.jpg">
+      <img src="8.jpg" alt="8" width="600" height="auto">
+    </a>
+    <div class="desc">2018 BMW 640i Gran Turismo interior</div>
+  </div>
+</div>
+</td></tr>
+<tr><td colspan="2">
+<div class="clearfix"></div>
+
+<div style="padding:6px;">
+   <p>This gallery has some of the cars which were among the cars which were voted to be tge car of the month.</p>
+</div>
+</td></tr>
+</table>
+</body>
+</html>

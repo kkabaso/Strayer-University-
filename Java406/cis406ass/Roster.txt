@@ -1,0 +1,124 @@
+import java.util.Scanner;
+import java.util.*;
+import java.util.Arrays;
+
+public class Roster
+{
+    public static void main(String args[]){
+      String[] lastName = new String[5];
+      int[] grades = new int[5];
+      Scanner input = new Scanner(System.in);
+      
+            int contNext = 0;
+            int i = 0; 
+            int resultDisplay = 0;
+            int nameR = 0; 
+            int count = 0;
+             
+            do {
+//prompts for user to enter each student's last name 
+       //for (int i = 0; i < 5; i++)
+        //{
+        System.out.print("Enter Student’s Last Name: ");
+        lastName[i] = input.next(); 
+//prompts for user to enter each student's grade
+        System.out.print("Enter the Student grade: ");
+        grades[i] = input.nextInt();
+        
+          if (contNext == 1) 
+             {
+             break;
+             }i++;
+             } while ( i < 5);
+             do { System.out.print("Enter 1 to sort by Name or 2 by Grades");
+             resultDisplay = input.nextInt();
+             if (resultDisplay == 1){
+                bubbleSort(lastName, grades);
+                }
+                if (resultDisplay == 2){
+                bubbleSort1(lastName, grades);
+                }
+     
+            System.out.print(" To continue, please enter 0, to quit enter 1 ");
+             contNext = input.nextInt();
+             } while(contNext!= 1 );
+    }   
+  public static void bubbleSort(String[] lastName, int[] grades)
+     {
+        int i, j;
+        String temp;
+        for ( i = 0;  i < lastName.length - 1;  i++ )
+            {
+                for ( j = i + 1;  j < lastName.length;  j++ )
+                {  
+                   if (lastName [ i ].compareToIgnoreCase( lastName [ j ] ) > 0 )
+                          {                                             
+// ascending sort
+                           temp = lastName [ i ];
+                           lastName [ i ] = lastName [ j ];  
+// swapping
+                           lastName [ j ] = temp; 
+                          
+                           
+                          }
+                    
+                
+                
+        }
+ //Print name and grade for each array.
+   System.out.println("===========================================");
+   System.out.println("Name: " + "       " + "Numerical Grade : ");
+   System.out.println("===========================================");
+        for (i = 0; i < 5; i++)
+        {
+          System.out.println(lastName[i] + "            " + grades[i]);
+        }
+          System.out.println("===========================================");
+        }
+  }
+ // public static void bubbleSort( int[] grades, String[] lastName)
+  public static void bubbleSort1(String[] lastName, int[] grades)
+  {
+       int i, j;
+       int temp;
+          int comparisonsToMake = grades.length - 1;
+          for( i = 0; i < grades.length - 1; i++)
+          {
+            for( j = 0; j < comparisonsToMake; j++)
+               {
+                   if(grades[j] > grades[j + 1])
+                 {
+                      temp = grades[j];
+                     grades[j] = grades[j + 1];
+                     grades[j + 1] = temp;
+      
+                 }
+               }                    
+          } 
+//Print name and grade for each array.
+   System.out.println("===========================================");
+   System.out.println("Name: " + "       " + "Numerical Grade : ");
+   System.out.println("===========================================");
+        for (i = 0; i < 5; i++)
+        {
+            System.out.println(lastName[i] + "            " + grades[i]);
+        }
+   System.out.println("===========================================");
+  }
+}
+ //Name                Numerical Grade           
+//Bailey               97                                
+//David               88                                
+//Ericson              79                               
+//Frank                99                                
+//Manning            91
+
+/*The output should look like this if the user chose to sort by grade:
+Name                Numerical Grade
+Frank                99        
+Bailey               97
+Manning            91
+David               88
+Ericson              79
+
+Note: The name and grade pairs must stay together.*/

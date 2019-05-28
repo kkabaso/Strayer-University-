@@ -1,0 +1,23 @@
+body{
+    background-color: bisque;
+    font-family: Arial;
+    background-image: url(lab8image.jpg);
+    background-audio: url(hello.mp3);
+    background-repeat: no-repeat;
+    background-position: center; 
+    }
+audio {
+    background-color:  white;
+    display: block;
+    margin: 50% auto;
+    width: 95;
+   }
+.center {
+   width: 300px;
+   height: 300px;
+   position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -150px;
+   margin-top: -150px;
+}

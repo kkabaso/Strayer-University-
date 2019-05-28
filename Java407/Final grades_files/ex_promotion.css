@@ -1,0 +1,103 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: arial, Helvetica;
+    overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.prom-item {
+    padding: 10px;
+    background: #3c8fbc;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    color: #eee;
+    font-size: 14px;
+}
+
+
+
+.prom-item p {
+    line-height: 18px;
+    font-size: 14px;
+}
+
+.prom-item a {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    color: #3eaceb;
+    /*border: 1px solid #3eaceb;*/
+    -webkit-transition: all 200ms ease;
+    border-radius: 2px;
+    text-align: center;
+    margin-top: 9px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    background: white;
+    display: block;
+}
+
+.thanksgiving {
+    padding: 10px;
+    background: #283a4e;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    color: #fbaf31;
+    font-size: 14px;
+}
+
+.thanksgiving p {
+    line-height: 18px;
+    font-size: 12px;
+}
+
+.thanksgiving p.large {
+    font-size: 24px;
+    line-height: 26px;
+}
+
+.thanksgiving img {
+    float: left;
+    height: 35px;
+}
+
+.thanksgiving .info {
+    text-indent: 5px;
+    height: 45px;
+}
+
+.thanksgiving .title {
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 12px;
+}
+
+.thanksgiving a {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    color: #fbaf31;
+    border: 1px solid #fbaf31;
+    -webkit-transition: all 200ms ease;
+    border-radius: 2px;
+    text-align: center;
+    margin-top: 9px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+}
+
+.thanksgiving .leaf {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 55px;
+    height: auto;
+}
